@@ -1,0 +1,25 @@
+{
+  description = "Flake for MacOS";
+  inputs = {
+    #package repo
+    nixpkgs.url = "github:nixos/nixpkgs";
+
+    #manages configs and links them into home directory
+    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    #Controls system level software and settings including fonts
+    darwin.url = "github:lnl7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs = inputs@{ self, home-manager, ... }: {
+    darwinConfigurations."wand" = inputs.darwin.lib.darwinSystem {
+      system = "x86_64-darwin";
+      modules = [
+        home-manager.darwinModules.home-manager
+        ./hosts/wand/default.nix
+      ];
+    };
+  };
+}

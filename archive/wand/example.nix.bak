@@ -14,16 +14,12 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs: {
-    darwinConfigurations."wand" =
+    darwinConfigurations.default =
       inputs.darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         pkgs = import inputs.nixpkgs { system = "x86_64-darwin"; };
         modules = [
           ({ pkgs, ... }: {
-            users.users.max = {
-              name = "max";
-              home = "/Users/max";
-            };
             # here go the darwin preferences and config items
             programs.zsh.enable = true;
             environment.shells = [ pkgs.bash pkgs.zsh ];
@@ -52,10 +48,10 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.max.imports = [
+              users.demo.imports = [
                 ({ pkgs, ... }: {
                   # Don't change this when you change package input. Leave it alone.
-                  home.stateVersion = "23.11";
+                  home.stateVersion = "22.11";
                   # specify my home-manager configs
                   home.packages = [ pkgs.ripgrep pkgs.fd pkgs.curl pkgs.less ];
                   home.sessionVariables = {
@@ -67,16 +63,13 @@
                   programs.bat.config.theme = "TwoDark";
                   programs.fzf.enable = true;
                   programs.fzf.enableZshIntegration = true;
-                  programs.eza.enable = true;
-                  programs.eza.enableZshIntegration = true;
+                  programs.exa.enable = true;
                   programs.git.enable = true;
-                  programs.zsh = {
-                    enable = true;
-                    enableCompletion = true;
-                    autosuggestion.enable = true;
-                    syntaxHighlighting.enable = true;
-                    shellAliases = { ls = "ls --color=auto -F"; };
-                  };
+                  programs.zsh.enable = true;
+                  programs.zsh.enableCompletion = true;
+                  programs.zsh.enableAutosuggestions = true;
+                  programs.zsh.enableSyntaxHighlighting = true;
+                  programs.zsh.shellAliases = { ls = "ls --color=auto -F"; };
                   programs.starship.enable = true;
                   programs.starship.enableZshIntegration = true;
                   programs.alacritty = {
