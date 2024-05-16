@@ -46,6 +46,7 @@
             system.defaults.NSGlobalDomain.KeyRepeat = 1;
             # backwards compat; don't change
             system.stateVersion = 4;
+            security.pam.enableSudoTouchIdAuth = true;
           })
           inputs.home-manager.darwinModules.home-manager
           {
