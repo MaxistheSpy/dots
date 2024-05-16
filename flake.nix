@@ -26,6 +26,7 @@
             };
             # here go the darwin preferences and config items
             programs.zsh.enable = true;
+            security.pam.enableSudoTouchIdAuth = true;
             environment.shells = [ pkgs.bash pkgs.zsh ];
             environment.loginShell = pkgs.zsh;
             environment.systemPackages = [ pkgs.coreutils ];
@@ -46,7 +47,7 @@
             system.defaults.NSGlobalDomain.KeyRepeat = 1;
             # backwards compat; don't change
             system.stateVersion = 4;
-            security.pam.enableSudoTouchIdAuth = true;
+
           })
           inputs.home-manager.darwinModules.home-manager
           {
@@ -80,7 +81,9 @@
                       ls = "ls --color=auto -F";
                       nixswitch = "darwin-rebuild switch --flake ~/dots";
                       nixre = "nixswitch";
-                      nixup = "pushd ~/src/system-config; nix flake update; nixswitch; popd";
+                      nixsave-unsafe = "f(){pushd ~/dots; git add .; git commit \"\$*\"; popd;}; f";
+                      nixsave = "f(){nixre && nixsave-unsafe \"\$*\" && echo \"nixsave Sucess\" || echo \"nixsave failed\";}; f";
+                      nixup = "pushd ~/dots; nix flake update; nixswitch; popd";
                     };
                   };
                   programs.starship.enable = true;
