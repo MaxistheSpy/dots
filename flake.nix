@@ -75,7 +75,12 @@
                     enableCompletion = true;
                     autosuggestion.enable = true;
                     syntaxHighlighting.enable = true;
-                    shellAliases = { ls = "ls --color=auto -F"; };
+                    shellAliases = {
+                      ls = "ls --color=auto -F";
+                      nixswitch = "darwin-rebuild switch --flake ~/dots";
+                      nixre = "nixswitch";
+                      nixup = "pushd ~/src/system-config; nix flake update; nixswitch; popd";
+                    };
                   };
                   programs.starship.enable = true;
                   programs.starship.enableZshIntegration = true;
